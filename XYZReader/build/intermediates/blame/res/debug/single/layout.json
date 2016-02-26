@@ -56,16 +56,16 @@
         "source": "C:\\Divya\\AndroidNanodegree\\Projects\\xyzreader\\XYZReader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_popup_menu_item_layout.xml"
     },
     {
+        "merged": "C:\\Divya\\AndroidNanodegree\\Projects\\xyzreader\\XYZReader\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_mode_close_item_material.xml",
+        "source": "C:\\Divya\\AndroidNanodegree\\Projects\\xyzreader\\XYZReader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_action_mode_close_item_material.xml"
+    },
+    {
         "merged": "C:\\Divya\\AndroidNanodegree\\Projects\\xyzreader\\XYZReader\\build\\intermediates\\res\\merged\\debug\\layout\\abc_search_dropdown_item_icons_2line.xml",
         "source": "C:\\Divya\\AndroidNanodegree\\Projects\\xyzreader\\XYZReader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_search_dropdown_item_icons_2line.xml"
     },
     {
         "merged": "C:\\Divya\\AndroidNanodegree\\Projects\\xyzreader\\XYZReader\\build\\intermediates\\res\\merged\\debug\\layout\\activity_article_detail.xml",
         "source": "C:\\Divya\\AndroidNanodegree\\Projects\\xyzreader\\XYZReader\\src\\main\\res\\layout\\activity_article_detail.xml"
-    },
-    {
-        "merged": "C:\\Divya\\AndroidNanodegree\\Projects\\xyzreader\\XYZReader\\build\\intermediates\\res\\merged\\debug\\layout\\abc_action_mode_close_item_material.xml",
-        "source": "C:\\Divya\\AndroidNanodegree\\Projects\\xyzreader\\XYZReader\\build\\intermediates\\exploded-aar\\com.android.support\\appcompat-v7\\23.1.1\\res\\layout\\abc_action_mode_close_item_material.xml"
     },
     {
         "merged": "C:\\Divya\\AndroidNanodegree\\Projects\\xyzreader\\XYZReader\\build\\intermediates\\res\\merged\\debug\\layout\\notification_media_action.xml",
