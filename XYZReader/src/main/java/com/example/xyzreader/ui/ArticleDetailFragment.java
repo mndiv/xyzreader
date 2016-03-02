@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ShareCompat;
 import android.support.v7.graphics.Palette;
 import android.text.Html;
@@ -54,6 +55,7 @@ public class ArticleDetailFragment extends Fragment implements
     private int mScrollY;
     private boolean mIsCard = false;
     private int mStatusBarFullOpacityBottom;
+    private FloatingActionButton mShareFab;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -128,15 +130,8 @@ public class ArticleDetailFragment extends Fragment implements
 
         mStatusBarColorDrawable = new ColorDrawable(0);
 
-        mRootView.findViewById(R.id.share_fab).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
-                        .setType("text/plain")
-                        .setText("Some sample text")
-                        .getIntent(), getString(R.string.action_share)));
-            }
-        });
+        mShareFab = (FloatingActionButton)mRootView.findViewById(R.id.share_fab);
+
 
         bindViews();
         updateStatusBar();
@@ -188,6 +183,12 @@ public class ArticleDetailFragment extends Fragment implements
             mRootView.setVisibility(View.VISIBLE);
             mRootView.animate().alpha(1);
             titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
+            final String byline = DateUtils.getRelativeTimeSpanString(
+                            mCursor.getLong(ArticleLoader.Query.PUBLISHED_DATE),
+                            System.currentTimeMillis(), DateUtils.HOUR_IN_MILLIS,
+                            DateUtils.FORMAT_ABBREV_ALL).toString()
+                            + " by "
+                            + mCursor.getString(ArticleLoader.Query.AUTHOR);
             bylineView.setText(Html.fromHtml(
                     DateUtils.getRelativeTimeSpanString(
                             mCursor.getLong(ArticleLoader.Query.PUBLISHED_DATE),
@@ -217,7 +218,17 @@ public class ArticleDetailFragment extends Fragment implements
 
                         }
                     });
-        } else {
+
+            mShareFab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(Intent.createChooser(ShareCompat.IntentBuilder.from(getActivity())
+                            .setType("text/plain")
+                            .setText(mCursor.getString(ArticleLoader.Query.TITLE)+ "\n (on " + byline + ") ")
+                            .getIntent(), getString(R.string.action_share)));
+                }
+            });
+            }else {
             mRootView.setVisibility(View.GONE);
             titleView.setText("N/A");
             bylineView.setText("N/A" );
