@@ -118,28 +118,7 @@ public class ArticleDetailFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mRootView.findViewById(R.id.photo).setTransitionName(getString(R.string.transitionName)+String.valueOf(mPosition));
-        }
-//        mDrawInsetsFrameLayout = (DrawInsetsFrameLayout)
-//                mRootView.findViewById(R.id.draw_insets_frame_layout);
-//        mDrawInsetsFrameLayout.setOnInsetsCallback(new DrawInsetsFrameLayout.OnInsetsCallback() {
-//            @Override
-//            public void onInsetsChanged(Rect insets) {
-//                mTopInset = insets.top;
-//            }
-//        });
 
-//        mScrollView = (NestedScrollView) mRootView.findViewById(R.id.scrollview);
-//        mScrollView.setCallbacks(new ObservableScrollView.Callbacks() {
-//            @Override
-//            public void onScrollChanged() {
-//                mScrollY = mScrollView.getScrollY();
-//                getActivityCast().onUpButtonFloorChanged(mItemId, ArticleDetailFragment.this);
-//                mPhotoContainerView.setTranslationY((int) (mScrollY - mScrollY / PARALLAX_FACTOR));
-//                updateStatusBar();
-//            }
-//        });
 
         mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
         //mPhotoContainerView = mRootView.findViewById(R.id.photo_container);
@@ -195,6 +174,10 @@ public class ArticleDetailFragment extends Fragment implements
         bodyView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Rosario-Regular.ttf"));
 
         if (mCursor != null) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mRootView.findViewById(R.id.photo).setTransitionName(getString(R.string.transitionName)+String.valueOf(mPosition));
+                Log.v(TAG,"TransitionName Frag:" + mRootView.findViewById(R.id.photo).getTransitionName());
+            }
             mRootView.setAlpha(0);
             mRootView.setVisibility(View.VISIBLE);
             mRootView.animate().alpha(1);

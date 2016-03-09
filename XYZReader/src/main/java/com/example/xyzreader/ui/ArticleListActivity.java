@@ -45,8 +45,6 @@ public class ArticleListActivity extends AppCompatActivity implements
     private RecyclerView mRecyclerView;
     protected final String TAG = getClass().getSimpleName();
 
-    static final String EXTRA_STARTING_ALBUM_POSITION = "extra_starting_item_position";
-    static final String EXTRA_CURRENT_ALBUM_POSITION = "extra_current_item_position";
 
     private Bundle mTmpReenterState;
     private boolean mIsDetailsActivityStarted;
@@ -214,6 +212,7 @@ public class ArticleListActivity extends AppCompatActivity implements
             mCursor.moveToPosition(position);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 holder.thumbnailView.setTransitionName(getString(R.string.transitionName)+position);
+                Log.v(TAG, "TransitionName List:" + holder.thumbnailView.getTransitionName());
             }
             holder.titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
             holder.subtitleView.setText(

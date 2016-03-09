@@ -61,7 +61,7 @@ public class ArticleDetailActivity extends ActionBarActivity
                 .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1, getResources().getDisplayMetrics()));
         mPager.setPageMarginDrawable(new ColorDrawable(0x22000000));
 
-        mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        mPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageScrollStateChanged(int state) {
                 super.onPageScrollStateChanged(state);
@@ -86,7 +86,7 @@ public class ArticleDetailActivity extends ActionBarActivity
         mUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                onSupportNavigateUp();
+                onBackPressed();
             }
         });
 
@@ -110,6 +110,8 @@ public class ArticleDetailActivity extends ActionBarActivity
             }
         }
     }
+
+
 
     public void scheduleStartPostponedTransition(final View sharedElement) {
         sharedElement.getViewTreeObserver().addOnPreDrawListener(
@@ -157,12 +159,7 @@ public class ArticleDetailActivity extends ActionBarActivity
         mPagerAdapter.notifyDataSetChanged();
     }
 
-    public void onUpButtonFloorChanged(long itemId, ArticleDetailFragment fragment) {
-        if (itemId == mSelectedItemId) {
-            mSelectedItemUpButtonFloor = fragment.getUpButtonFloor();
-            updateUpButtonPosition();
-        }
-    }
+
 
     private void updateUpButtonPosition() {
         int upButtonNormalBottom = mTopInset + mUpButton.getHeight();
