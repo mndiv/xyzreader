@@ -7,8 +7,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -29,7 +31,6 @@ import com.example.xyzreader.data.UpdaterService;
 import com.facebook.stetho.Stetho;
 
 
-
 /**
  * An activity representing a list of Articles. This activity has different presentations for
  * handset and tablet-size devices. On handsets, the activity presents a list of items, which when
@@ -43,6 +44,12 @@ public class ArticleListActivity extends AppCompatActivity implements
     private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView mRecyclerView;
     protected final String TAG = getClass().getSimpleName();
+
+    static final String EXTRA_STARTING_ALBUM_POSITION = "extra_starting_item_position";
+    static final String EXTRA_CURRENT_ALBUM_POSITION = "extra_current_item_position";
+
+    private Bundle mTmpReenterState;
+    private boolean mIsDetailsActivityStarted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,7 +108,7 @@ public class ArticleListActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.refresh:
                 Log.i(TAG, "Refresh menu item selected");
 
@@ -111,6 +118,10 @@ public class ArticleListActivity extends AppCompatActivity implements
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+
 
     private boolean mIsRefreshing = false;
 
@@ -126,7 +137,7 @@ public class ArticleListActivity extends AppCompatActivity implements
 
     private void updateRefreshingUI() {
         Log.d(TAG, "mIsRefreshing : " + mIsRefreshing);
-       // mSwipeRefreshLayout.setRefreshing(mIsRefreshing);
+        // mSwipeRefreshLayout.setRefreshing(mIsRefreshing);
         mSwipeRefreshLayout.setRefreshing(true);
         (new Handler()).postDelayed(new Runnable() {
             @Override
@@ -178,8 +189,21 @@ public class ArticleListActivity extends AppCompatActivity implements
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(new Intent(Intent.ACTION_VIEW,
-                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition()))));
+                    Intent intent = new Intent(Intent.ACTION_VIEW,
+                            ItemsContract.Items.buildItemUri(getItemId(vh.getAdapterPosition())));
+
+                    ActivityOptionsCompat options = null;
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                        options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                                ArticleListActivity.this,
+                                (View) view.findViewById(R.id.thumbnail),
+                                view.findViewById(R.id.thumbnail).getTransitionName());
+                        startActivity(intent, options.toBundle());
+                    }
+                    else {
+                        startActivity(intent);
+                    }
+
                 }
             });
             return vh;
@@ -188,6 +212,9 @@ public class ArticleListActivity extends AppCompatActivity implements
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                holder.thumbnailView.setTransitionName(getString(R.string.transitionName)+position);
+            }
             holder.titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
             holder.subtitleView.setText(
                     DateUtils.getRelativeTimeSpanString(
