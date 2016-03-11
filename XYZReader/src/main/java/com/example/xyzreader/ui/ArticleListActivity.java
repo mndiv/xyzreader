@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -142,7 +143,7 @@ public class ArticleListActivity extends AppCompatActivity implements
             public void run() {
                 mSwipeRefreshLayout.setRefreshing(false);
             }
-        }, 3000);
+        },3000);
     }
 
     @Override
@@ -192,10 +193,22 @@ public class ArticleListActivity extends AppCompatActivity implements
 
                     ActivityOptionsCompat options = null;
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                        options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                ArticleListActivity.this,
-                                (View) view.findViewById(R.id.thumbnail),
+                        Pair<View,String> p1 = Pair.create(view.findViewById(R.id.thumbnail),
                                 view.findViewById(R.id.thumbnail).getTransitionName());
+
+                        Pair<View,String> p2 = Pair.create(view.findViewById(R.id.article_title),
+                                view.findViewById(R.id.article_title).getTransitionName());
+
+                        Pair<View,String> p3 = Pair.create(view.findViewById(R.id.article_subtitle),
+                                view.findViewById(R.id.article_subtitle).getTransitionName());
+
+//                        options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                                ArticleListActivity.this,
+//                                (View) view.findViewById(R.id.thumbnail),
+//                                view.findViewById(R.id.thumbnail).getTransitionName());
+
+                        options = ActivityOptionsCompat.makeSceneTransitionAnimation(ArticleListActivity.this,p1,p2,p3);
+
                         startActivity(intent, options.toBundle());
                     }
                     else {
@@ -211,7 +224,9 @@ public class ArticleListActivity extends AppCompatActivity implements
         public void onBindViewHolder(ViewHolder holder, int position) {
             mCursor.moveToPosition(position);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                holder.thumbnailView.setTransitionName(getString(R.string.transitionName)+position);
+                holder.thumbnailView.setTransitionName(getString(R.string.imgTransitionName)+position);
+                holder.titleView.setTransitionName(getString(R.string.titleTransitionName)+position);
+                holder.subtitleView.setTransitionName(getString(R.string.subtitleTransitionName)+position);
                 Log.v(TAG, "TransitionName List:" + holder.thumbnailView.getTransitionName());
             }
             holder.titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));

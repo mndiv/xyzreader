@@ -8,6 +8,9 @@
     <string name="action_share">Share</string>
 
     <string name="up">Up</string>
-    <string name="transitionName">transProfile</string>
+    <string name="imgTransitionName">ImageTransition</string>
+    <string name="titleTransitionName">TitleTransition</string>
+    <string name="subtitleTransitionName">SubTitleTransitionName</string>
+
 
 </resources>

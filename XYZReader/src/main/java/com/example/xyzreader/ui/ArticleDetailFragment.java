@@ -71,7 +71,7 @@ public class ArticleDetailFragment extends Fragment implements
     public static ArticleDetailFragment newInstance(long itemId,int pos) {
         Bundle arguments = new Bundle();
         arguments.putLong(ARG_ITEM_ID, itemId);
-        arguments.putInt(ARG_POSITION,pos);
+        arguments.putInt(ARG_POSITION, pos);
         ArticleDetailFragment fragment = new ArticleDetailFragment();
         fragment.setArguments(arguments);
         return fragment;
@@ -175,7 +175,9 @@ public class ArticleDetailFragment extends Fragment implements
 
         if (mCursor != null) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mRootView.findViewById(R.id.photo).setTransitionName(getString(R.string.transitionName)+String.valueOf(mPosition));
+                mRootView.findViewById(R.id.photo).setTransitionName(getString(R.string.imgTransitionName)+String.valueOf(mPosition));
+                mRootView.findViewById(R.id.article_title).setTransitionName(getString(R.string.titleTransitionName) + String.valueOf(mPosition));
+                mRootView.findViewById(R.id.article_byline).setTransitionName(getString(R.string.subtitleTransitionName) + String.valueOf(mPosition));
                 Log.v(TAG,"TransitionName Frag:" + mRootView.findViewById(R.id.photo).getTransitionName());
             }
             mRootView.setAlpha(0);
