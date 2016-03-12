@@ -23,6 +23,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import com.example.xyzreader.R;
@@ -30,6 +31,7 @@ import com.example.xyzreader.data.ArticleLoader;
 import com.example.xyzreader.data.ItemsContract;
 import com.example.xyzreader.data.UpdaterService;
 import com.facebook.stetho.Stetho;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -193,13 +195,13 @@ public class ArticleListActivity extends AppCompatActivity implements
 
                     ActivityOptionsCompat options = null;
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                        Pair<View,String> p1 = Pair.create(view.findViewById(R.id.thumbnail),
+                        Pair<View, String> p1 = Pair.create(view.findViewById(R.id.thumbnail),
                                 view.findViewById(R.id.thumbnail).getTransitionName());
 
-                        Pair<View,String> p2 = Pair.create(view.findViewById(R.id.article_title),
+                        Pair<View, String> p2 = Pair.create(view.findViewById(R.id.article_title),
                                 view.findViewById(R.id.article_title).getTransitionName());
 
-                        Pair<View,String> p3 = Pair.create(view.findViewById(R.id.article_subtitle),
+                        Pair<View, String> p3 = Pair.create(view.findViewById(R.id.article_subtitle),
                                 view.findViewById(R.id.article_subtitle).getTransitionName());
 
 //                        options = ActivityOptionsCompat.makeSceneTransitionAnimation(
@@ -207,11 +209,10 @@ public class ArticleListActivity extends AppCompatActivity implements
 //                                (View) view.findViewById(R.id.thumbnail),
 //                                view.findViewById(R.id.thumbnail).getTransitionName());
 
-                        options = ActivityOptionsCompat.makeSceneTransitionAnimation(ArticleListActivity.this,p1,p2,p3);
+                        options = ActivityOptionsCompat.makeSceneTransitionAnimation(ArticleListActivity.this, p1, p2, p3);
 
                         startActivity(intent, options.toBundle());
-                    }
-                    else {
+                    } else {
                         startActivity(intent);
                     }
 
@@ -221,7 +222,18 @@ public class ArticleListActivity extends AppCompatActivity implements
         }
 
         @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        public void onBindViewHolder( final ViewHolder holder, int position) {
+            int mWidth = holder.thumbnailView.getMeasuredWidth();
+            ViewTreeObserver vto = holder.thumbnailView.getViewTreeObserver();
+
+//            vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+//                @Override
+//                public boolean onPreDraw() {
+//                    holder.thumbnailView.getViewTreeObserver().removeOnPreDrawListener();
+//                    mWidth = holder.thumbnailView.getMeasuredWidth();
+//                    return false;
+//                }
+//            });
             mCursor.moveToPosition(position);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 holder.thumbnailView.setTransitionName(getString(R.string.imgTransitionName)+position);
@@ -238,10 +250,42 @@ public class ArticleListActivity extends AppCompatActivity implements
                             + " by "
                             + mCursor.getString(ArticleLoader.Query.AUTHOR));
 
-            holder.thumbnailView.setImageUrl(
-                    mCursor.getString(ArticleLoader.Query.THUMB_URL),
-                    ImageLoaderHelper.getInstance(ArticleListActivity.this).getImageLoader());
+//            holder.thumbnailView.setImageUrl(
+//                    mCursor.getString(ArticleLoader.Query.THUMB_URL),
+//                    ImageLoaderHelper.getInstance(ArticleListActivity.this).getImageLoader());
+
+
+//            Transformation transformation = new Transformation( ) {
+//
+//
+//                @Override
+//                public Bitmap transform(Bitmap source) {
+//                    int targetWidth = mWidth;
+//
+//                    float aspectRatio = (float) mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO);
+//                    Log.v(TAG, "width x height " + targetWidth + " x " + (int) (targetWidth / aspectRatio));
+//
+//                    int targetHeight = (int) (targetWidth / aspectRatio);
+//                    Bitmap result = Bitmap.createScaledBitmap(source, targetWidth, targetHeight, false);
+//
+//                    if (result != source) {
+//                        // Same bitmap is returned if sizes are the same
+//                        source.recycle();
+//                    }
+//                    return result;
+//                }
+//
+//
+//                @Override
+//                public String key() {
+//                    return "transformation" + " desiredWidth";
+//                }
+//            };
+            
             holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
+            Picasso.with(getApplicationContext()).load(mCursor.getString(ArticleLoader.Query.THUMB_URL))
+                   .into(holder.thumbnailView);
+        // holder.thumbnailView.setAspectRatio(mCursor.getFloat(ArticleLoader.Query.ASPECT_RATIO));
         }
 
         @Override
