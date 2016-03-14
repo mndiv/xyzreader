@@ -25,5 +25,6 @@
     <color name="ltgray">#ffe0e0e0</color>
     <color name="text_black">#424242</color>
     <color name="text_icons">#FFFFFF</color>
+    <color name="textColor">#6000</color>
 
 </resources>

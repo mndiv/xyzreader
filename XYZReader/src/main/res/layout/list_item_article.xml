@@ -5,21 +5,20 @@
     android:clickable="true"
     android:focusable="true"
     android:foreground="?selectableItemBackground"
-    app:cardCornerRadius="8dp"
+    app:cardCornerRadius="@dimen/cardCornerRadius"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingLeft="8dp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp">
+
+        android:paddingBottom="@dimen/bottomPadding">
 
         <!--suppress AndroidLintContentDescription -->
         <com.example.xyzreader.ui.DynamicHeightNetworkImageView
             android:id="@+id/thumbnail"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="100dp"
             android:background="@color/photo_placeholder"/>
 
@@ -28,8 +27,9 @@
             style="@style/TextAppearance.AppCompat.Subhead"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="8dp"
-            android:paddingRight="8dp"
+            android:paddingTop="@dimen/TopPadding"
+            android:paddingRight="@dimen/RightPadding"
+            android:paddingLeft="@dimen/LeftPadding"
             android:textColor="@color/text_black"
             android:ellipsize="end"
             android:maxLines="4" />
@@ -40,9 +40,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="4dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="4dp"
-            android:textColor="#6000"
+            android:paddingRight="@dimen/RightPadding"
+            android:paddingBottom="@dimen/bottomPadding"
+            android:paddingLeft="@dimen/LeftPadding"
+            android:textColor="@color/textColor"
             android:maxLines="1"
             android:singleLine="true"
             android:ellipsize="end" />

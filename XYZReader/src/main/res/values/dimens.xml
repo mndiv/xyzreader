@@ -7,5 +7,10 @@
     <dimen name="fab_elevation">6dp</dimen>
     <dimen name="fab_press_translation_z">6dp</dimen>
     <dimen name="fab_margin">24dp</dimen>
+    <dimen name="LeftPadding">8dp</dimen>
+    <dimen name="TopPadding">8dp</dimen>
+    <dimen name="bottomPadding">8dp</dimen>
+    <dimen name="RightPadding">8dp</dimen>
+    <dimen name="cardCornerRadius">8dp</dimen>
 
 </resources>
